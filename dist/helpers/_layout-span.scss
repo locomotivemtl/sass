@@ -1,0 +1,42 @@
+//
+// Calculate or set a percentage width.
+//
+// Value can take a decimal format (e.g., `0.66667`),
+// a fraction-like format (e.g., `2/3`), or
+// a spoken-word format (e.g., `2 of 3`).
+//
+
+@function layout-span ( $span ) {
+	$_output   : auto;
+	$_fraction : 0;
+ 
+	@if type-of($span) == number {
+ 
+		@if $span < 1 and $span > 0 {
+			$_fraction: $span;
+		}
+ 
+	} @else if type-of($span) == list {
+ 
+		$_of: index($span, of);
+ 
+		@if $_of == 2 {
+			$_part  : nth($span, 1);
+			$_whole : nth($span, 3);
+ 
+			$_fraction: $_part / $_whole;
+		}
+ 
+	}
+ 
+	@if $_fraction != 0 {
+		$_output: $_fraction * 100%;
+	}
+ 
+	@return $_output;
+}
+
+@mixin layout-span ( $span, $property: width ) {
+	$_value: layout-span($span);
+	#{$property}: $_value;
+}
