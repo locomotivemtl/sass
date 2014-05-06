@@ -11,8 +11,8 @@ Sass 3.3+
 
 Functions:
 
-* **`span($span)`**: Returns a percentage number from `$span`, be it an explicit numerator (e.g., 1/3), a decimal (e.g., 0.3), or a spoken-word (e.g., 1 of 3).
+* **`layout-span($span)`**: Returns a percentage number from `$span`, be it an explicit numerator (e.g., 1/3), a decimal (e.g., 0.3), or a spoken-word (e.g., 1 of 3).
 
 Mixins:
 
-* **`span($span, $property: width)`**: Set percentage number on property, usually to establish a column-width.
+* **`layout-span($span, $property: width)`**: Set percentage number on property, usually to establish a column-width.
