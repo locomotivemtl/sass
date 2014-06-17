@@ -1,0 +1,60 @@
+//
+// Manage z-index stacking contexts
+//
+// For proper scaling, declare site-wide lists
+// in a settings file or a dedicated partial.
+//
+// @author  Jackie Balzer
+// @see     http://smashingmagazine.com/?p=194619
+// @usage   $site-order  : project-covers, user-tooltip, sorting-bar, modals, navigation;
+//          $modal-order : fields, form-controls, errors, autocomplete-dropdown;
+//
+//          .modal {
+//              z-index: z-index($site-order, modals);
+//              
+//              .field {
+//                  z-index: z-index($modal-order, modals);
+//              }
+//          }
+//
+
+@function stack-get ( $list, $element ) {
+
+	@if list == type-of($list) {
+		$_index: index($list, $element);
+
+		@if $_index {
+			@return $_index;
+		}
+		@else {
+			@warn 'There is no item "#{$element}" in this list; choose one of: #{$list}';
+		}
+	}
+	@else if map == type-of($list) {
+		@if map-has-key($list, $element) {
+			$_index: map-get($list, $element);
+			@return $_index;
+		}
+		@else {
+			@warn 'There is no key "#{$element}" in this map; choose one of: #{map-keys($list)}';
+		}
+	}
+	@else {
+		@warn 'The list needs to be of type "map" or "list"; you provided a #{type-of($list)}.';
+	}
+
+	@return null;
+}
+
+@mixin stack-get ( $list, $element, $property ) {
+	$_value: stack-get($list, $element);
+	#{$property}: $_value;
+}
+
+@mixin z-index ( $list, $element ) {
+	@include stack-get($list, $element, z-index);
+}
+
+@mixin order ( $list, $element ) {
+	@include stack-get($list, $element, order);
+}
